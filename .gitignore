@@ -3,3 +3,6 @@
 *.bak
 *.a
 *.la
+
+build*
+target
