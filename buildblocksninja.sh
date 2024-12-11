@@ -34,7 +34,7 @@ case "$OSTYPE" in
             else
               HOST_TRIPLE=i686-w64-windows-gnu
             fi
-            CMAKE_GENERATOR=-G"Unix Makefiles"
+            CMAKE_GENERATOR=-GNinja
   ;;
 esac
 
