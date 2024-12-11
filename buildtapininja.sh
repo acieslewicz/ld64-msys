@@ -44,7 +44,7 @@ case "$OSTYPE" in
               BUILD_LLVM=/mingw32
               BUILD_CLANG=/mingw32
             fi
-            CMAKE_GENERATOR=-G"Unix Makefiles"
+            CMAKE_GENERATOR=-GNinja
   ;;
 esac
 
