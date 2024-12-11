@@ -472,7 +472,7 @@ bool YAMLDocumentHandler::canRead(MemoryBufferRef memBufferRef,
     return false;
 
   auto str = memBufferRef.getBuffer().trim();
-  if (!str.startswith("--- !tapi-tbd\n") || !str.endswith("..."))
+  if (!str.starts_with("--- !tapi-tbd\n") || !str.ends_with("..."))
     return false;
 
   return true;

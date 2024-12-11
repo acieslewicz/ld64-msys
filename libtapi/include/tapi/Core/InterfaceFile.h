@@ -297,7 +297,7 @@ public:
     return _symbols->undefineds();
   }
 
-  llvm::Optional<const XPI *> contains(XPIKind kind, StringRef name) const;
+  std::optional<const XPI *> contains(XPIKind kind, StringRef name) const;
 
   llvm::Expected<std::unique_ptr<InterfaceFile>>
   extract(Architecture arch) const;

@@ -18,7 +18,7 @@
 #include "tapi/Core/LLVM.h"
 #include "tapi/Defines.h"
 #include "llvm/ADT/StringRef.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 
 TAPI_NAMESPACE_INTERNAL_BEGIN
 

@@ -23,10 +23,10 @@
 #include "clang/AST/DeclObjC.h"
 #include "clang/Basic/SourceLocation.h"
 #include "llvm/ADT/MapVector.h"
-#include "llvm/ADT/Optional.h"
+#include <optional>
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/StringSet.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/Support/Error.h"
 
 using clang::Decl;
@@ -46,7 +46,7 @@ public:
   clang::PresumedLoc getPresumedLoc() const;
 
 private:
-  llvm::Optional<clang::PresumedLoc> loc;
+  std::optional<clang::PresumedLoc> loc;
   StringRef file;
   unsigned line;
   unsigned col;
@@ -355,7 +355,7 @@ public:
   const ObjCProtocolRecord *findObjCProtocol(StringRef) const;
   const ObjCCategoryRecord *findObjCCategory(StringRef, StringRef) const;
 
-  bool hasBinaryInfo() const { return binaryInfo.hasValue(); }
+  bool hasBinaryInfo() const { return binaryInfo.has_value(); }
   BinaryInfo &getBinaryInfo();
   const BinaryInfo &getBinaryInfo() const {
     assert(hasBinaryInfo() && "must have binary info");
@@ -388,7 +388,7 @@ private:
   APIRecordMap typeDefs;
   llvm::StringSet<> potentiallyDefinedSelectors;
 
-  llvm::Optional<BinaryInfo> binaryInfo;
+  std::optional<BinaryInfo> binaryInfo;
 
   friend class APIVerifier;
 };

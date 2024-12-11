@@ -26,7 +26,7 @@
 #include "clang/Frontend/TextDiagnosticPrinter.h"
 #include "clang/Lex/HeaderMap.h"
 #include "clang/Lex/PreprocessorOptions.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/Option/ArgList.h"
 #include "llvm/Option/Option.h"
 #include "llvm/Support/Path.h"
@@ -76,8 +76,8 @@ static void addHeaderInclude(StringRef headerName,
                              clang::InputKind::Language lang,
                              SmallVectorImpl<char> &includes) {
   SmallString<PATH_MAX> name;
-  if (!(headerName.startswith("\"") && headerName.endswith("\"")) &&
-      !(headerName.startswith("<") && headerName.endswith(">"))) {
+  if (!(headerName.starts_with("\"") && headerName.ends_with("\"")) &&
+      !(headerName.starts_with("<") && headerName.ends_with(">"))) {
     name += "\"";
     name += headerName;
     name += "\"";
@@ -361,7 +361,7 @@ extern Optional<FrontendContext> runFrontend(const FrontendJob &job,
 
   args.emplace_back(inputFilePath);
   if (!runClang(context, args, std::move(input)))
-    return llvm::None;
+    return None;
   return context;
 }
 

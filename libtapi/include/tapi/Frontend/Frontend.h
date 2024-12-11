@@ -21,7 +21,7 @@
 #include "tapi/Defines.h"
 #include "tapi/Frontend/FrontendContext.h"
 #include "clang/Frontend/FrontendOptions.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 
 TAPI_NAMESPACE_INTERNAL_BEGIN
 
@@ -51,10 +51,10 @@ struct FrontendJob {
   PathSeq includePaths;
   std::vector<std::string> clangExtraArgs;
   HeaderType type;
-  llvm::Optional<std::string> clangExecutablePath;
+  std::optional<std::string> clangExecutablePath;
 };
 
-extern llvm::Optional<FrontendContext>
+extern std::optional<FrontendContext>
 runFrontend(const FrontendJob &job, StringRef inputFilename = StringRef());
 
 TAPI_NAMESPACE_INTERNAL_END

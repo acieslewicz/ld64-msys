@@ -22,7 +22,7 @@
 #include "tapi/Driver/ConfigurationFile.h"
 #include "clang/Frontend/FrontendOptions.h"
 #include "llvm/ADT/StringRef.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include <map>
 #include <string>
 

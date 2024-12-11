@@ -57,7 +57,7 @@ bool isPublicLocation(StringRef path) {
     // ==> false
     // /System/Library/Frameworks/Foo.framework/Frameworks/XFoo.framework/XFoo
     // ==> false
-    if (rest.startswith("framework/") && (sys::path::filename(rest) == name))
+    if (rest.starts_with("framework/") && (sys::path::filename(rest) == name))
       return true;
 
     return false;
@@ -78,7 +78,7 @@ std::string findLibrary(StringRef installName, FileManager &fm,
                         ArrayRef<std::string> searchPaths) {
   auto filename = sys::path::filename(installName);
   bool isFramework = sys::path::parent_path(installName)
-                         .endswith((filename + ".framework").str());
+                         .ends_with((filename + ".framework").str());
 
   if (isFramework) {
     for (const auto &path : frameworkSearchPaths) {

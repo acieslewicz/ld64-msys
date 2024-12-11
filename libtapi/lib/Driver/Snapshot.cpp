@@ -99,9 +99,9 @@ template <> struct ScalarTraits<Macro> {
   }
 
   static StringRef input(StringRef scalar, void * /*unused*/, Macro &value) {
-    if (scalar.startswith("-D"))
+    if (scalar.starts_with("-D"))
       value = Macro(scalar.drop_front(2), /*isUndef=*/false);
-    else if (scalar.startswith("-U"))
+    else if (scalar.starts_with("-U"))
       value = Macro(scalar.drop_front(2), /*isUndef=*/true);
     else
       return "invalid macro";
@@ -509,8 +509,8 @@ bool Snapshot::loadSnapshot(StringRef path_) {
 
   SmallString<PATH_MAX> runScript;
   SmallString<PATH_MAX> inputPath;
-  if (path.endswith(".yaml") &&
-      sys::path::parent_path(path).endswith(runScriptsDirectory)) {
+  if (path.ends_with(".yaml") &&
+      sys::path::parent_path(path).ends_with(runScriptsDirectory)) {
     runScript = path;
     inputPath = sys::path::parent_path(sys::path::parent_path(path));
   } else {
@@ -527,7 +527,7 @@ bool Snapshot::loadSnapshot(StringRef path_) {
           return std::string();
         }
         auto path = StringRef(it->path());
-        if (path.endswith(".yaml"))
+        if (path.ends_with(".yaml"))
           return it->path();
       }
       return std::string();
@@ -575,7 +575,7 @@ bool Snapshot::loadSnapshot(StringRef path_) {
       sys::path::append(clangExecutablePath, "clang");
     } else if (!frontendOptions.clangResourcePath.empty()) {
       StringRef path = frontendOptions.clangResourcePath;
-      while (!path.empty() && !path.endswith("bin"))
+      while (!path.empty() && !path.ends_with("bin"))
         path = sys::path::parent_path(path);
       if (!path.empty()) {
         clangExecutablePath = path;
@@ -612,7 +612,7 @@ bool Snapshot::loadSnapshot(StringRef path_) {
     SmallString<PATH_MAX> filePath = inputPath;
 
     std::string fileName;
-    if (StringRef(mapping.second).startswith("0x"))
+    if (StringRef(mapping.second).starts_with("0x"))
       // This is the new snapshot format that uses hex numbers.
       fileName = StringRef(mapping.second).drop_front(2);
     else {

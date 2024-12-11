@@ -431,7 +431,7 @@ template <> struct MappingTraits<const InterfaceFile *> {
 
         for (auto &sym : section.symbols) {
           if ((ctx->fileType < TBDv3) &&
-              sym.value.startswith("_OBJC_EHTYPE_$_")) {
+              sym.value.starts_with("_OBJC_EHTYPE_$_")) {
             file->addSymbol(XPIKind::ObjectiveCClassEHType,
                             sym.value.drop_front(15), targets);
           } else {
@@ -474,7 +474,7 @@ template <> struct MappingTraits<const InterfaceFile *> {
         auto targets = synthesizeTargets(section.architectures, platforms);
         for (auto &sym : section.symbols) {
           if ((ctx->fileType < TBDv3) &&
-              sym.value.startswith("_OBJC_EHTYPE_$_")) {
+              sym.value.starts_with("_OBJC_EHTYPE_$_")) {
             file->addSymbol(XPIKind::ObjectiveCClassEHType,
                             sym.value.drop_front(15), targets,
                             APILinkage::External);
@@ -603,9 +603,9 @@ bool YAMLDocumentHandler::canRead(MemoryBufferRef memBufferRef,
     return false;
 
   auto str = memBufferRef.getBuffer().trim();
-  if (!(str.startswith("---\narchs:") ||
-        str.startswith("--- !tapi-tbd-v1\n")) ||
-      !str.endswith("..."))
+  if (!(str.starts_with("---\narchs:") ||
+        str.starts_with("--- !tapi-tbd-v1\n")) ||
+      !str.ends_with("..."))
     return false;
 
   return true;
@@ -659,7 +659,7 @@ bool YAMLDocumentHandler::canRead(MemoryBufferRef memBufferRef,
     return false;
 
   auto str = memBufferRef.getBuffer().trim();
-  if (!str.startswith("--- !tapi-tbd-v2\n") || !str.endswith("..."))
+  if (!str.starts_with("--- !tapi-tbd-v2\n") || !str.ends_with("..."))
     return false;
 
   return true;
@@ -709,7 +709,7 @@ bool YAMLDocumentHandler::canRead(MemoryBufferRef memBufferRef,
     return false;
 
   auto str = memBufferRef.getBuffer().trim();
-  if (!str.startswith("--- !tapi-tbd-v3\n") || !str.endswith("..."))
+  if (!str.starts_with("--- !tapi-tbd-v3\n") || !str.ends_with("..."))
     return false;
 
   return true;

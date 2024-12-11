@@ -149,7 +149,7 @@ static bool emitJSON(const Framework &framework, StringRef isysroot, const Tripl
 
   auto path = framework.getPath();
   while (!path.empty()) {
-    if (path.endswith(".framework"))
+    if (path.ends_with(".framework"))
       break;
     path = sys::path::parent_path(path);
   }

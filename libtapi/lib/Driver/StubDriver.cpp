@@ -79,10 +79,10 @@ static bool isPrivatePath(StringRef path, bool isSymlink = false) {
   path.consume_front("/System/iOSSupport");
   path.consume_front("/System/DriverKit");
 
-  if (path.startswith("/usr/local/lib"))
+  if (path.starts_with("/usr/local/lib"))
     return true;
 
-  if (path.startswith("/System/Library/PrivateFrameworks"))
+  if (path.starts_with("/System/Library/PrivateFrameworks"))
     return true;
 
   // Everything in /usr/lib/swift (including sub-directories) is now considered
@@ -99,7 +99,7 @@ static bool isPrivatePath(StringRef path, bool isSymlink = false) {
   }
 
   // /System/Library/Frameworks/ is a public location
-  if (path.startswith("/System/Library/Frameworks/")) {
+  if (path.starts_with("/System/Library/Frameworks/")) {
     StringRef name, rest;
     std::tie(name, rest) =
         path.drop_front(sizeof("/System/Library/Frameworks")).split('.');
@@ -112,9 +112,9 @@ static bool isPrivatePath(StringRef path, bool isSymlink = false) {
     // ==> false
     // /System/Library/Frameworks/Foo.framework/Frameworks/Xfoo.framework/XFoo
     // ==> false
-    if (rest.startswith("framework/") &&
-        (rest.endswith(name) || rest.endswith((name + ".tbd").str()) ||
-         (isSymlink && rest.endswith("Current"))))
+    if (rest.starts_with("framework/") &&
+        (rest.ends_with(name) || rest.ends_with((name + ".tbd").str()) ||
+         (isSymlink && rest.ends_with("Current"))))
       return false;
 
     return true;
@@ -132,7 +132,7 @@ static bool inlineFrameworks(Context &ctx, InterfaceFile *dylib) {
     if (isPublicLocation(lib.getInstallName()))
       continue;
 
-    if (lib.getInstallName().startswith("@"))
+    if (lib.getInstallName().starts_with("@"))
       continue;
 
     auto path =
@@ -271,9 +271,9 @@ static bool stubifyDirectory(Context &ctx) {
     // Skip header directories (include/Headers/PrivateHeaders) and module
     // files.
     StringRef path = i->path();
-    if (path.endswith("/include") || path.endswith("/Headers") ||
-        path.endswith("/PrivateHeaders") || path.endswith("/Modules") ||
-        path.endswith(".map") || path.endswith(".modulemap")) {
+    if (path.ends_with("/include") || path.ends_with("/Headers") ||
+        path.ends_with("/PrivateHeaders") || path.ends_with("/Modules") ||
+        path.ends_with(".map") || path.ends_with(".modulemap")) {
       i.no_push();
       continue;
     }
@@ -511,7 +511,7 @@ static bool stubifyDirectory(Context &ctx) {
     do {
       ec = sys::fs::remove(dir);
       dir = sys::path::parent_path(dir);
-      if (!dir.startswith(ctx.inputPath))
+      if (!dir.starts_with(ctx.inputPath))
         break;
     } while (!ec);
   }

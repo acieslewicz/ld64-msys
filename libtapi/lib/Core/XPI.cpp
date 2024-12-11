@@ -42,11 +42,10 @@ std::string XPI::getPrettyName(bool demangle) const {
   if (!demangle)
     return _name.str();
 
-  if (demangle && _name.startswith("__Z")) {
+  if (demangle && _name.starts_with("__Z")) {
     int status = 0;
-    char *demangledName = itaniumDemangle(_name.substr(1).str().c_str(),
-                                          nullptr, nullptr, &status);
-    if (status == 0) {
+    char *demangledName = itaniumDemangle(_name.substr(1).str().c_str());
+    if (demangledName) {
       std::string result = demangledName;
       free(demangledName);
       return result;

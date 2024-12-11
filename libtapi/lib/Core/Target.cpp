@@ -40,7 +40,7 @@ Expected<Target> Target::create(StringRef target) {
                  .Default(Platform::unknown);
 
   if (platform == Platform::unknown) {
-    if (platformStr.startswith("<") && platformStr.endswith(">")) {
+    if (platformStr.starts_with("<") && platformStr.ends_with(">")) {
       platformStr = platformStr.drop_front().drop_back();
       unsigned long long rawValue;
       if (platformStr.getAsInteger(10, rawValue))

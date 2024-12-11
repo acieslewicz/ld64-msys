@@ -40,12 +40,12 @@ template <> struct ScalarTraits<Macro> {
   }
 
   static StringRef input(StringRef scalar, void * /*unused*/, Macro &value) {
-    if (scalar.startswith("-D")) {
+    if (scalar.starts_with("-D")) {
       value = std::make_pair(scalar.drop_front(2), false);
       return {};
     }
 
-    if (scalar.startswith("-U")) {
+    if (scalar.starts_with("-U")) {
       value = std::make_pair(scalar.drop_front(2), true);
       return {};
     }
@@ -126,9 +126,9 @@ public:
 
 Error ConfigurationFileReader::Implementation::parse(StringRef input) {
   auto str = input.trim();
-  if (!(str.startswith("---\n") ||
-        str.startswith("--- !tapi-configuration-v1\n")) ||
-      !str.endswith("..."))
+  if (!(str.starts_with("---\n") ||
+        str.starts_with("--- !tapi-configuration-v1\n")) ||
+      !str.ends_with("..."))
     return make_error<StringError>("invalid input file",
                                    inconvertibleErrorCode());
 

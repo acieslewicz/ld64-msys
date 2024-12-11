@@ -212,10 +212,10 @@ static Error importSDK(Context &ctx) {
     // Skip header directories (include/Headers/PrivateHeaders), module
     // files, and tolchain directories.
     StringRef path = i->path();
-    if (path.endswith("/include") || path.endswith("/Headers") ||
-        path.endswith("/PrivateHeaders") || path.endswith("/Modules") ||
-        path.endswith(".map") || path.endswith(".modulemap") ||
-        path.endswith(".xctoolchain")) {
+    if (path.ends_with("/include") || path.ends_with("/Headers") ||
+        path.ends_with("/PrivateHeaders") || path.ends_with("/Modules") ||
+        path.ends_with(".map") || path.ends_with(".modulemap") ||
+        path.ends_with(".xctoolchain")) {
       i.no_push();
       continue;
     }

@@ -19,7 +19,7 @@
 #include "tapi/Core/ArchitectureConfig.h"
 #include "tapi/Core/LLVM.h"
 #include "tapi/Defines.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include <iterator>
 #include <limits>
 #include <stddef.h>

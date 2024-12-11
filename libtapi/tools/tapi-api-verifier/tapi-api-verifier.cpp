@@ -22,7 +22,7 @@
 #include "tapi/Driver/HeaderGlob.h"
 #include "tapi/Frontend/Frontend.h"
 #include "llvm/ADT/SmallString.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Format.h"
 #include "llvm/Support/ManagedStatic.h"

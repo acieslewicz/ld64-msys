@@ -20,7 +20,7 @@
 #include "tapi/Core/LLVM.h"
 #include "tapi/Core/Platform.h"
 #include "tapi/Defines.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/Support/Error.h"
 
 TAPI_NAMESPACE_INTERNAL_BEGIN

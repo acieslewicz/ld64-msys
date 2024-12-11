@@ -20,7 +20,7 @@
 #include "tapi/Diagnostics/Diagnostics.h"
 #include "tapi/Driver/DriverOptions.h"
 #include "clang/Frontend/FrontendOptions.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/Option/Option.h"
 #include <set>
 #include <string>

@@ -303,7 +303,7 @@ bool DirectoryScanner::scanHeaders(Framework &framework, StringRef path,
 
     // Ignore tmp files from unifdef.
     auto filename = sys::path::filename(headerPath);
-    if (filename.startswith("."))
+    if (filename.starts_with("."))
       continue;
 
     if (!isHeaderFile(headerPath))
@@ -332,7 +332,7 @@ bool DirectoryScanner::scanModules(Framework &framework,
       return false;
     }
 
-    if (!path.endswith(".modulemap"))
+    if (!path.ends_with(".modulemap"))
       continue;
 
     // Skip files that not exist. This usually happens for broken symlinks.
@@ -517,7 +517,7 @@ bool DirectoryScanner::scanSDKContent(StringRef directory) {
     }
 
     // Skip framework directories that is handled above.
-    if (path.endswith("Frameworks") || path.endswith("PrivateFrameworks"))
+    if (path.ends_with("Frameworks") || path.ends_with("PrivateFrameworks"))
       continue;
 
     // Skip all that is not a directory.

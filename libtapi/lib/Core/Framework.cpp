@@ -26,7 +26,7 @@ StringRef Framework::getName() const {
   StringRef path = _baseDirectory;
   // Returns the framework name extract from path.
   while (!path.empty()) {
-    if (path.endswith(".framework"))
+    if (path.ends_with(".framework"))
       return sys::path::filename(path);
     path = sys::path::parent_path(path);
   }

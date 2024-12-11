@@ -19,7 +19,7 @@
 #include "tapi/Defines.h"
 #include "llvm/ADT/ArrayRef.h"
 #include "llvm/ADT/StringRef.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/BinaryFormat/MachO.h"
 #include <set>
 #include <string>

@@ -132,9 +132,9 @@ void Configuration::setConfiguration(ConfigurationFile &&configFile,
     return;
 
   // If the project name ends with _iosmac, set the default to iosmac.
-  isiOSMac = StringRef(*project).endswith("_iosmac");
+  isiOSMac = StringRef(*project).ends_with("_iosmac");
 
-  isDriverKit = StringRef(*project).endswith("_driverkit");
+  isDriverKit = StringRef(*project).ends_with("_driverkit");
 
   // Find the project setting from configuration file.
   // If there is setting for the project, update them as commandline options.
@@ -160,7 +160,7 @@ std::string Configuration::getSysRoot() const {
          i != llvm::vfs::directory_iterator(); i.increment(ec)) {
       auto path = i->path();
       auto name = llvm::sys::path::filename(path);
-      if (name.startswith("DriverKit") && name.endswith("Internal.sdk"))
+      if (name.starts_with("DriverKit") && name.ends_with("Internal.sdk"))
         sysroot = path;
     }
   }

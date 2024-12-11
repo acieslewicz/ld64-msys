@@ -106,7 +106,7 @@ public:
   void processSymbol(StringRef name, PackedVersion32 minOSVersion,
                      bool disallowWeakImports) {
     // $ld$ <action> $ <condition> $ <symbol-name>
-    if (!name.startswith("$ld$"))
+    if (!name.starts_with("$ld$"))
       return;
 
     StringRef action, condition, symbolName;
@@ -115,7 +115,7 @@ public:
     if (action.empty() || condition.empty() || symbolName.empty())
       return;
 
-    if (!condition.startswith("os"))
+    if (!condition.starts_with("os"))
       return;
 
     auto version = parseVersion32(condition.drop_front(2));
@@ -439,7 +439,7 @@ bool LinkerInterfaceFile::Impl::init(
 
     switch (symbol->getKind()) {
     case XPIKind::GlobalSymbol:
-      if (symbol->getName().startswith("$ld$"))
+      if (symbol->getName().starts_with("$ld$"))
         continue;
       addSymbol(symbol->getName(), symbol->getFlags());
       break;

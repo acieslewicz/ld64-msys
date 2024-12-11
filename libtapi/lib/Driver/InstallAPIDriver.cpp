@@ -130,7 +130,7 @@ static bool verifySymbols(const InterfaceFile *apiFile,
   sort(symbols, xpiCmp);
   for (const auto *dsymbol : symbols) {
     // Skip normal symbols. We only care about special linker symbols here.
-    if (!dsymbol->getName().startswith("$ld$"))
+    if (!dsymbol->getName().starts_with("$ld$"))
       continue;
 
     if (apiFile->contains(dsymbol->getKind(), dsymbol->getName()))
@@ -145,12 +145,12 @@ static bool verifySymbols(const InterfaceFile *apiFile,
 
   for (const auto *dsymbol : symbols) {
     // Skip special linker symbols. We already checked them.
-    if (dsymbol->getName().startswith("$ld$"))
+    if (dsymbol->getName().starts_with("$ld$"))
       continue;
 
     // Ignore Swift symbols.
-    if (dsymbol->getName().startswith("_$s") ||
-        dsymbol->getName().startswith("_$S"))
+    if (dsymbol->getName().starts_with("_$s") ||
+        dsymbol->getName().starts_with("_$S"))
       continue;
 
     if (apiFile->contains(dsymbol->getKind(), dsymbol->getName()))
@@ -161,8 +161,8 @@ static bool verifySymbols(const InterfaceFile *apiFile,
     // file.
     // We do not warn about weak-defined RTTI, because this doesn't affect
     // linking and can be ignored.
-    if (dsymbol->isWeakDefined() && (dsymbol->getName().startswith("__ZTI") ||
-                                     dsymbol->getName().startswith("__ZTS")))
+    if (dsymbol->isWeakDefined() && (dsymbol->getName().starts_with("__ZTI") ||
+                                     dsymbol->getName().starts_with("__ZTS")))
       continue;
 
     // Do not warn about fragile ObjC classes. Even hidden classes are exported
@@ -382,12 +382,12 @@ getCodeCoverageSymbols(DiagnosticsEngine &diag,
                                      ec);
     FileRemover removeStderrFile(stderrFile);
 
-    const Optional<StringRef> redirects[] = {/*STDIN=*/llvm::None,
-                                             /*STDOUT=*/llvm::None,
+    const Optional<StringRef> redirects[] = {/*STDIN=*/None,
+                                             /*STDOUT=*/None,
                                              /*STDERR=*/StringRef(stderrFile)};
 
     bool failed = sys::ExecuteAndWait(clangBinary.get(), clangArgs,
-                                      /*env=*/llvm::None, redirects);
+                                      /*env=*/None, redirects);
 
     if (failed) {
       auto bufferOr = MemoryBuffer::getFile(stderrFile);
@@ -460,7 +460,7 @@ static Expected<std::vector<SymbolAlias>> parseAliasList(FileManager &fm,
       continue;
 
     // Skip comments
-    if (l.startswith("#"))
+    if (l.starts_with("#"))
       continue;
 
     StringRef symbol, alias;
@@ -478,19 +478,19 @@ static Expected<std::vector<SymbolAlias>> parseAliasList(FileManager &fm,
 static std::tuple<StringRef, XPIKind> parseSymbol(StringRef symbolName) {
   StringRef name;
   XPIKind kind;
-  if (symbolName.startswith(".objc_class_name_")) {
+  if (symbolName.starts_with(".objc_class_name_")) {
     name = symbolName.drop_front(17);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_CLASS_$_")) {
+  } else if (symbolName.starts_with("_OBJC_CLASS_$_")) {
     name = symbolName.drop_front(14);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_METACLASS_$_")) {
+  } else if (symbolName.starts_with("_OBJC_METACLASS_$_")) {
     name = symbolName.drop_front(18);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_EHTYPE_$_")) {
+  } else if (symbolName.starts_with("_OBJC_EHTYPE_$_")) {
     name = symbolName.drop_front(15);
     kind = XPIKind::ObjectiveCClassEHType;
-  } else if (symbolName.startswith("_OBJC_IVAR_$_")) {
+  } else if (symbolName.starts_with("_OBJC_IVAR_$_")) {
     name = symbolName.drop_front(13);
     kind = XPIKind::ObjectiveCInstanceVariable;
   } else {
@@ -522,7 +522,7 @@ static bool handleAutoZipperList(DiagnosticsEngine &diag, Options &opts,
     if (l.empty())
       continue;
     // Skip comments
-    if (l.startswith("#"))
+    if (l.starts_with("#"))
       continue;
     // If found matching installName, add target variant.
     if (l == opts.linkerOptions.installName) {

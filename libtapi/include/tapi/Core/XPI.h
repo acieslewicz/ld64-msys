@@ -24,12 +24,12 @@
 #include "tapi/Defines.h"
 #include "tapi/Symbol.h"
 #include "clang/Basic/SourceLocation.h"
-#include "llvm/ADT/Optional.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/iterator.h"
 #include "llvm/Support/Allocator.h"
 #include <map>
+#include <optional>
 #include <utility>
 
 TAPI_NAMESPACE_INTERNAL_BEGIN
@@ -119,7 +119,7 @@ public:
     return _availability;
   }
 
-  llvm::Optional<AvailabilityInfo>
+  std::optional<AvailabilityInfo>
   getAvailabilityInfo(const Target &target) const {
     auto it = find_if(_availability,
                       [&](const std::pair<Target, AvailabilityInfo> &avail) {
@@ -128,8 +128,7 @@ public:
     if (it != _availability.end())
       return it->second;
 
-    return llvm::None;
-    //return std::nullopt;
+    return std::nullopt;
   }
 
   ArchitectureSet getArchitectures() const {

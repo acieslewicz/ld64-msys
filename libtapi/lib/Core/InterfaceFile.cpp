@@ -230,13 +230,12 @@ ObjCClass *InterfaceFile::addObjCClass(StringRef name, const Target &target,
   return _symbols->addObjCClass(name, linkage, target, access);
 }
 
-Optional<const XPI *> InterfaceFile::contains(XPIKind kind,
+std::optional<const XPI *> InterfaceFile::contains(XPIKind kind,
                                               StringRef name) const {
   if (auto *xpi = _symbols->findSymbol(kind, name))
     return xpi;
 
-  return llvm::None;
-  //return std::nullopt;
+  return std::nullopt;
 }
 
 Expected<std::unique_ptr<InterfaceFile>>

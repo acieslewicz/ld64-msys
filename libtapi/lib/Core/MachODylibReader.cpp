@@ -20,7 +20,7 @@
 #include "tapi/Core/MachOReader.h"
 #include "tapi/Core/XPI.h"
 #include "llvm/ADT/StringRef.h"
-#include "llvm/ADT/Triple.h"
+#include "llvm/TargetParser/Triple.h"
 #include "llvm/BinaryFormat/Magic.h"
 #include "llvm/Object/MachO.h"
 #include "llvm/Object/MachOUniversal.h"
@@ -56,19 +56,19 @@ bool MachODylibReader::canRead(file_magic magic, MemoryBufferRef bufferRef,
 static std::tuple<StringRef, XPIKind> parseSymbol(StringRef symbolName) {
   StringRef name;
   XPIKind kind;
-  if (symbolName.startswith(".objc_class_name_")) {
+  if (symbolName.starts_with(".objc_class_name_")) {
     name = symbolName.drop_front(17);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_CLASS_$_")) {
+  } else if (symbolName.starts_with("_OBJC_CLASS_$_")) {
     name = symbolName.drop_front(14);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_METACLASS_$_")) {
+  } else if (symbolName.starts_with("_OBJC_METACLASS_$_")) {
     name = symbolName.drop_front(18);
     kind = XPIKind::ObjectiveCClass;
-  } else if (symbolName.startswith("_OBJC_EHTYPE_$_")) {
+  } else if (symbolName.starts_with("_OBJC_EHTYPE_$_")) {
     name = symbolName.drop_front(15);
     kind = XPIKind::ObjectiveCClassEHType;
-  } else if (symbolName.startswith("_OBJC_IVAR_$_")) {
+  } else if (symbolName.starts_with("_OBJC_IVAR_$_")) {
     name = symbolName.drop_front(13);
     kind = XPIKind::ObjectiveCInstanceVariable;
   } else {
